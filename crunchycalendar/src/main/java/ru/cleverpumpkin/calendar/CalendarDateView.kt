@@ -100,20 +100,20 @@ internal class CalendarDateView @JvmOverloads constructor(
     var textColorStateList: ColorStateList? = null
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawDayNumber()
-        canvas.drawIndicators()
+        drawDayNumber(canvas)
+        drawIndicators(canvas)
     }
 
-    private fun Canvas.drawDayNumber() {
+    private fun drawDayNumber(canvas: Canvas) {
         textPaint.color = textColor
 
         val xPos = width / 2.0f
         val yPos = height / 2.0f - (textPaint.descent() + textPaint.ascent()) / 2.0f
 
-        drawText(dayNumber, xPos - (dayNumberWidth / 2.0f), yPos, textPaint)
+        canvas.drawText(dayNumber, xPos - (dayNumberWidth / 2.0f), yPos, textPaint)
     }
 
-    private fun Canvas.drawIndicators() {
+    private fun drawIndicators(canvas: Canvas) {
         if (dateIndicators.isEmpty()) {
             return
         }
@@ -126,7 +126,7 @@ internal class CalendarDateView @JvmOverloads constructor(
 
         dateIndicators.forEach { indicator ->
             indicatorPaint.color = indicator.color
-            drawCircle(xPos, yPos, radiusPx, indicatorPaint)
+            canvas.drawCircle(xPos, yPos, radiusPx, indicatorPaint)
 
             xPos += radiusPx * 2.0f + spacePx
         }
