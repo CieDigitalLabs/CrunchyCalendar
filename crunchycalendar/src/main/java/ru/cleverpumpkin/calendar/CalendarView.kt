@@ -52,6 +52,20 @@ class CalendarView @JvmOverloads constructor(
         val color: Int
     }
 
+    //Xamarin Binding Interface
+    interface ICalendarDateAction{
+        fun onDateAction(date:CalendarDate);
+    }
+
+    //Xamarin Binding Interface
+    interface  ICalendarYearAction{
+        fun onYearAction(year:Int);
+    }
+
+    //Xamarin Binding Interface
+    interface  ICalendarFilterAction{
+        fun onFilterAction(date:CalendarDate):Boolean;
+    }
     /**
      * Internal interface that provides required information for the specific Calendar date.
      */
@@ -195,10 +209,29 @@ class CalendarView @JvmOverloads constructor(
             recyclerView.adapter.notifyDataSetChanged()
         }
 
+    //Needed for xamarin binding
+    public fun setOnDateLongClickListener(action:ICalendarDateAction){
+        onDateLongClickListener = {date->action.onDateAction(date);}
+    }
+
+    //Needed for xamarin binding
+    fun setOnDateClickListener(action:ICalendarDateAction){
+        onDateClickListener = {date->action.onDateAction(date);}
+    }
+
+    //Needed for xamarin binding
+    fun setOnYearClickListener(action:ICalendarYearAction){
+        onYearClickListener = {year->action.onYearAction(year);}
+    }
+
+    //Needed for xamarin binding
+    fun setDateSelectionFilter(action: ICalendarFilterAction){
+        dateSelectionFilter = {date->action.onFilterAction(date);}
+    }
     /**
      * Listener that will be notified when a date cell is clicked.
      */
-    var onDateClickListener: ((CalendarDate) -> Unit)? = null
+    public var onDateClickListener: ((CalendarDate) -> Unit)? = null
 
     /**
      * Listener that will be notified when a date cell is long clicked.
